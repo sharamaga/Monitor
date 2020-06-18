@@ -49,7 +49,7 @@ def monitor(pid, th, interval):
     while True:
         # Get percent of CPU load and compare it with threshold
         load = get_load_by_pid(pid)
-        if load != -1:
+        if load:
             print('pid = ' + str(pid) + '  load = ' + str(load))
             if int(load) > th:
                 # Send massage to telegram bot with percentage of load and PID
