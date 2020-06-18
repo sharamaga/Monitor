@@ -68,7 +68,6 @@ def monitoring():
         # Sleep some time
         time.sleep(config_dict.get('i'))
 
-    return
 
-
-monitoring()
+if __name__ == '__main__':
+    monitoring()
