@@ -7,20 +7,14 @@ from time import sleep
 
 
 def get_load_by_pid(pid_num):
-    if psutil.pid_exists(pid_num):
-        if psutil.Process(pid_num).is_running():
-            try:
-                process = psutil.Process(pid_num)
-            except process.AccessDenied:
-                print('Access denied to the process with PID ' + str(pid_num))
-            else:
-                return process.cpu_percent()
-        else:
-            print('Process with PID ' + str(pid_num) + ' is not running')
+    try:
+        process = psutil.Process(pid_num)
+    except psutil.NoSuchProcess:
+        print('No process with PID ' + str(pid_num))
+    except psutil.AccessDenied:
+        print('Access denied to the process with PID ' + str(pid_num))
     else:
-        print('Process with PID ' + str(pid_num) + ' do not exists')
-
-    return -1
+        return process.cpu_percent()
 
 
 def main():
