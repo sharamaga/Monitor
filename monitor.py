@@ -1,7 +1,7 @@
 import config
 import argparse
 import psutil
-import telebot  # install pytelegrambotapi
+import telebot
 import time
 from time import sleep
 
