@@ -14,7 +14,7 @@ def get_load_by_pid(pid_num):
     except psutil.AccessDenied:
         print('Access denied to the process with PID ' + str(pid_num))
     else:
-        return process.cpu_percent()
+        return process.cpu_percent(interval=1)
 
 
 def main():
