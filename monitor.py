@@ -23,22 +23,21 @@ def get_load_by_pid(pid_num):
     return -1
 
 
-def parse_cmd():
-    out_dict = {}
+def main():
     cmd_parser = argparse.ArgumentParser(description='Monitoring script')
     cmd_parser.add_argument("-p", type=int, action="store", dest="pid", required=True, help="Process ID to be checked")
     cmd_parser.add_argument("-t", type=int, action="store", dest="th", default=50, help="Threshold for CPU load")
     cmd_parser.add_argument("-i", type=int, action="store", dest="interval", default=3, help="Update interval")
 
     args = cmd_parser.parse_args()
-    out_dict['p'] = args.pid
-    out_dict['t'] = args.th
-    out_dict['i'] = args.interval
+    pid = args.pid
+    th = args.th
+    interval = args.interval
 
-    return out_dict
+    monitor(pid, th, interval)
 
 
-def monitoring():
+def monitor(pid, th, interval):
     # Create bot
     try:
         bot = telebot.TeleBot(config.token)
@@ -53,21 +52,17 @@ def monitoring():
         print('Chat ID is incorrect, set proper chat_id')
         return
 
-    # Get input from command line
-    config_dict = parse_cmd()
-
-    # main loop
     while True:
         # Get percent of CPU load and compare it with threshold
-        load = get_load_by_pid(config_dict.get('p'))
+        load = get_load_by_pid(pid)
         if load != -1:
-            print('pid = ' + str(config_dict.get('p')) + '  load = ' + str(load))
-            if int(load) > config_dict.get('t'):
+            print('pid = ' + str(pid) + '  load = ' + str(load))
+            if int(load) > th:
                 # Send massage to telegram bot with percentage of load and PID
-                bot.send_message(config.chat_id, 'pid = ' + str(config_dict.get('p')) + '  load = ' + str(load))
+                bot.send_message(config.chat_id, 'pid = ' + str(pid) + '  load = ' + str(load))
         # Sleep some time
-        time.sleep(config_dict.get('i'))
+        time.sleep(interval)
 
 
 if __name__ == '__main__':
-    monitoring()
+    main()
