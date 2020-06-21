@@ -33,27 +33,28 @@ def main():
 
 def monitor(pid, th, interval):
     # Create bot
-    try:
-        bot = telebot.TeleBot(config.token)
-    except BaseException:
-        print('Attempt to start Telegram bot is fail, check token')
-        return
+    # try:
+    #     bot = telebot.TeleBot(config.token)
+    # except BaseException:
+    #     print('Attempt to start Telegram bot is fail, check token')
+    #     return
 
     # Attempt to send something to Telegram bot to check that chat.id is correct
-    try:
-        bot.send_message(config.chat_id, 'This is test message, if you see it Telegram, bot works perfect')
-    except BaseException:
-        print('Chat ID is incorrect, set proper chat_id')
-        return
+    # try:
+    #     bot.send_message(config.chat_id, 'This is test message, if you see it Telegram, bot works perfect')
+    # except BaseException:
+    #     print('Chat ID is incorrect, set proper chat_id')
+    #     return
 
     while True:
         # Get percent of CPU load and compare it with threshold
         load = get_load_by_pid(pid)
         if load:
-            print('pid = {}  load = {}'.format(pid, load))
             if int(load) > th:
+                # Print message to console
+                print('pid = {}  load = {}'.format(pid, load))
                 # Send massage to telegram bot with percentage of load and PID
-                bot.send_message(config.chat_id, 'pid = {}  load = {}'.format(pid, load))
+                # bot.send_message(config.chat_id, 'pid = {}  load = {}'.format(pid, load))
         # Sleep some time
         time.sleep(interval)
 
