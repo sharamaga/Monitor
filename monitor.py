@@ -10,9 +10,9 @@ def get_load_by_pid(pid_num):
     try:
         process = psutil.Process(pid_num)
     except psutil.NoSuchProcess:
-        print('No process with PID ' + str(pid_num))
+        print('No process with PID {}'.format(pid_num))
     except psutil.AccessDenied:
-        print('Access denied to the process with PID ' + str(pid_num))
+        print('Access denied to the process with PID {}'.format(pid_num))
     else:
         return process.cpu_percent(interval=1)
 
@@ -50,10 +50,10 @@ def monitor(pid, th, interval):
         # Get percent of CPU load and compare it with threshold
         load = get_load_by_pid(pid)
         if load:
-            print('pid = ' + str(pid) + '  load = ' + str(load))
+            print('pid = {}  load = {}'.format(pid, load))
             if int(load) > th:
                 # Send massage to telegram bot with percentage of load and PID
-                bot.send_message(config.chat_id, 'pid = ' + str(pid) + '  load = ' + str(load))
+                bot.send_message(config.chat_id, 'pid = {}  load = {}'.format(pid, load))
         # Sleep some time
         time.sleep(interval)
 
